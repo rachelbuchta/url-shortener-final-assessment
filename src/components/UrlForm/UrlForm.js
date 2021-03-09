@@ -37,7 +37,6 @@ class UrlForm extends Component {
           value={this.state.title}
           onChange={e => this.handleNameChange(e)}
         />
-
         <input
           type='text'
           placeholder='URL to Shorten...'
