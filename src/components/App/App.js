@@ -5,14 +5,32 @@ import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       urls: []
     }
   }
 
+  getData = () => {
+    let allUrls
+    getUrls()
+      .then(urls => {
+        this.setState({urls: urls.urls})
+        console.log(this.state.urls)
+        // console.log(urls.urls)
+        // allUrls = urls.urls.map(item => {
+        //   this.setState({urls: [allUrls, item]})
+        // })
+        })
+        .catch(error => {
+          console.log('Request Failed', error)
+        })
+  }
+  
+
   componentDidMount = () => {
+    this.getData()
   }
 
   render() {
@@ -22,8 +40,7 @@ class App extends Component {
           <h1>URL Shortener</h1>
           <UrlForm />
         </header>
-
-        <UrlContainer urls={this.state.urls}/>
+        <UrlContainer urls={this.state.urls} />
       </main>
     );
   }
