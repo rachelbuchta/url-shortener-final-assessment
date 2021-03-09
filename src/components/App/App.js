@@ -26,14 +26,23 @@ class App extends Component {
     this.getData()
   }
 
+  addUrl = ({longUrl, title}) => {
+    updateUrls(longUrl, title)
+      .then(() => this.getData())
+  }
+
   render() {
     return (
       <main className="App">
         <header>
           <h1>URL Shortener</h1>
-          <UrlForm />
+          <UrlForm 
+            addUrl={this.addUrl} 
+          />
         </header>
-        <UrlContainer urls={this.state.urls} />
+        <UrlContainer 
+          urls={this.state.urls} 
+        />
       </main>
     );
   }
