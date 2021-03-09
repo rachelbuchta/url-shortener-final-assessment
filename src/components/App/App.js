@@ -8,17 +8,19 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      urls: []
+      urls: [],
+      error: ''
     }
   }
 
   getData = () => {
     getUrls()
-      .then(urls => {
+      .then((urls) => {
         this.setState({urls: urls.urls})
       })
       .catch(error => {
         console.log('Request Failed', error)
+        this.setState({error: "We are having issues loading this page, please try again later."})
       })
   }
 
@@ -28,7 +30,7 @@ class App extends Component {
 
   addUrl = ({longUrl, title}) => {
     updateUrls(longUrl, title)
-      .then(() => this.getData())
+      .then((url) => this.setState({urls: [...this.state.urls, url]}))
   }
 
   render() {
@@ -40,9 +42,11 @@ class App extends Component {
             addUrl={this.addUrl} 
           />
         </header>
+        {this.state.error ? <h2>{this.state.error}</h2> :
         <UrlContainer 
           urls={this.state.urls} 
         />
+        }
       </main>
     );
   }

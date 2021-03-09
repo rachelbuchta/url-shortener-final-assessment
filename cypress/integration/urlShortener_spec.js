@@ -3,18 +3,20 @@ describe('Url Shortener', () => {
     cy.fixture('example.json')
       .then((data) => {
         cy.intercept('GET', 'http://localhost:3001/api/v1/urls', {
-          statusCode: 201,
+          statusCode: 200,
           body: data
         })
       })
       cy.intercept('POST', 'http://localhost:3001/api/v1/urls', {
         statusCode: 201,
-        body: {
+        body:{
+          "id": 100,
+          "short_url": "shortURL",
           "long_url": "https://frontend.turing.io/lessons/module-3/intro-to-cypress-testing.html",
           "title": "Ohhhh Cypress.."
         }
       })
-  cy.visit('http://localhost:3000/')
+    cy.visit('http://localhost:3000/')
   })
 
   it('Should display page title and the existing shortened URLs', () => {
@@ -46,6 +48,16 @@ describe('Url Shortener', () => {
       .type("https://frontend.turing.io/lessons/module-3/intro-to-cypress-testing.html")
       .should('have.value', "https://frontend.turing.io/lessons/module-3/intro-to-cypress-testing.html")
     cy.get('button').click()
-    // cy.get('section').children('.url').should('have.length', 1)
+    cy.get('section').children('.url').should('have.length', 2)
   })
+})
+
+describe('URL shortener error handling', () => {
+  it('Should be able to see an error message if the server sends back a failed response', () => {
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', {
+      statusCode: 404,
+    })
+    cy.visit('http://localhost:3000/')
+    cy.get('h2').should('contain', "We are having issues loading this page, please try again later.")
+   })
 })
