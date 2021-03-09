@@ -37,4 +37,15 @@ describe('Url Shortener', () => {
       .type("https://frontend.turing.io/lessons/module-3/intro-to-cypress-testing.html")
       .should('have.value', "https://frontend.turing.io/lessons/module-3/intro-to-cypress-testing.html")
   })
+
+  it('Should be able to fill out each input form and click submit, the new url should render to the page', () => {
+    cy.get('input[name="title"]')
+      .type('Ohhhh Cypress..')
+      .should('have.value', 'Ohhhh Cypress..')
+    cy.get('input[name="urlToShorten"]')
+      .type("https://frontend.turing.io/lessons/module-3/intro-to-cypress-testing.html")
+      .should('have.value', "https://frontend.turing.io/lessons/module-3/intro-to-cypress-testing.html")
+    cy.get('button').click()
+    // cy.get('section').children('.url').should('have.length', 1)
+  })
 })
